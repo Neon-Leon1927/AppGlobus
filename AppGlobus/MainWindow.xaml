@@ -1,0 +1,36 @@
+﻿<Window x:Class="AppGlobus.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppGlobus"
+        mc:Ignorable="d"
+        Title="Login" Height="300" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="21*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="16*"/>
+            <RowDefinition Height="23*"/>
+            <RowDefinition Height="28*"/>
+            <RowDefinition Height="27*"/>
+            <RowDefinition Height="125*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Вход в систему" HorizontalAlignment="Center" Height="30" VerticalAlignment="Center" Width="129" FontFamily="Comic Sans MS" FontSize="16"/>
+        <Label Content="Логин:" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="129" FontFamily="Comic Sans MS" Grid.Row="1"/>
+        <Label Content="Пароль:" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="129" FontFamily="Comic Sans MS" Grid.Row="3"/>
+        <TextBox x:Name="TextBoxLogin" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" TextWrapping="Wrap"  VerticalAlignment="Center" Width="240" Height="18"/>
+        <TextBox x:Name="TextBoxPassword" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="4" TextWrapping="Wrap"  VerticalAlignment="Center" Width="240" Height="18"/>
+        <Button x:Name="ButtonLogin" Content="Войти" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" Width="81" FontFamily="Comic Sans MS"  Click="ButtonLogin_Click" MouseEnter="ButtonLogin_MouseEnter" Height="21">
+            <Button.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FF45F2FF" Offset="0"/>
+                    <GradientStop Color="#FF4FB2FF" Offset="0.987"/>
+                    <GradientStop Color="#FF80F5FF" Offset="0.017"/>
+                </RadialGradientBrush>
+            </Button.Background>
+        </Button>
+
+    </Grid>
+</Window>

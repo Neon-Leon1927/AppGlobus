@@ -1,4 +1,6 @@
+cat > .gitignore << 'EOF'
 # Visual Studio файлы
+.vs/
 [Bb]in/
 [Oo]bj/
 *.user
@@ -19,3 +21,11 @@
 x64/
 x86/
 build/
+
+# Файлы проекта
+*.exe
+*.dll
+*.pdb
+*.lib
+*.log
+EOF
