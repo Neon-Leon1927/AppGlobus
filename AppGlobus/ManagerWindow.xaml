@@ -5,8 +5,103 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppGlobus"
         mc:Ignorable="d"
-        Title="ManagerWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Управление турами"
+        Height="600"
+        Width="900"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0"
+               Text="Управление турами"
+               FontSize="20"
+               FontWeight="Bold"
+               Margin="0,0,0,10"/>
+
+        <!-- Панель управления -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button x:Name="btnAddTour"
+                Content="➕ Добавить"
+                Width="100"
+                Height="30"
+                Click="BtnAddTour_Click"/>
+            <Button x:Name="btnEditTour"
+                Content="✏️ Редактировать"
+                Width="120"
+                Height="30"
+                Margin="10,0,0,0"
+                Click="BtnEditTour_Click"
+                IsEnabled="False"/>
+            <Button x:Name="btnDeleteTour"
+                Content="🗑️ Удалить"
+                Width="100"
+                Height="30"
+                Margin="10,0,0,0"
+                Click="BtnDeleteTour_Click"
+                IsEnabled="False"/>
+            <Button x:Name="btnRefresh"
+                Content="🔄 Обновить"
+                Width="100"
+                Height="30"
+                Margin="10,0,0,0"
+                Click="BtnRefresh_Click"/>
+            <Button x:Name="btnBack"
+                Content="← Назад"
+                Width="80"
+                Height="30"
+                Margin="10,0,0,0"
+                Click="BtnBack_Click"/>
+        </StackPanel>
+
+        <!-- Список туров -->
+        <DataGrid x:Name="dgTours"
+              Grid.Row="2"
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              SelectionMode="Single"
+              SelectionChanged="DgTours_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID"
+                                Binding="{Binding Id}"
+                                Width="50"/>
+                <DataGridTextColumn Header="Название"
+                                Binding="{Binding Name}"
+                                Width="200"/>
+                <DataGridTextColumn Header="Страна"
+                                Binding="{Binding Country}"
+                                Width="100"/>
+                <DataGridTextColumn Header="Дней"
+                                Binding="{Binding Duration}"
+                                Width="60"/>
+                <DataGridTextColumn Header="Дата начала"
+                                Binding="{Binding StartDate, StringFormat=dd.MM.yyyy}"
+                                Width="100"/>
+                <DataGridTextColumn Header="Стоимость"
+                                Binding="{Binding Price, StringFormat=N0 руб.}"
+                                Width="100"/>
+                <DataGridTextColumn Header="Тип автобуса"
+                                Binding="{Binding BusType}"
+                                Width="100"/>
+                <DataGridTextColumn Header="Вместимость"
+                                Binding="{Binding Capacity}"
+                                Width="80"/>
+                <DataGridTextColumn Header="Свободно"
+                                Binding="{Binding FreeSeats}"
+                                Width="70"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Статус -->
+        <StatusBar Grid.Row="3">
+            <StatusBarItem>
+                <TextBlock x:Name="txtStatus" Text="Готово"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>
