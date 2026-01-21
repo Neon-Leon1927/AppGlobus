@@ -5,17 +5,352 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppGlobus"
         mc:Ignorable="d"
-        Title="HomeWindow" Height="450" Width="800">
+        Title="Турагентство 'Глобус' - Список туров" 
+         Height="700" 
+         Width="1200"
+         WindowStartupLocation="CenterScreen">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="14*"/>
-            <ColumnDefinition Width="51*"/>
-            <ColumnDefinition Width="15*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="23*"/>
-            <RowDefinition Height="194*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!-- Шапка -->
+        <Border Grid.Row="0" Background="#2196F3" Padding="15">
+            <StackPanel Orientation="Horizontal" >
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Турагентство 'Глобус'" 
+                       FontSize="24" 
+                       FontWeight="Bold" 
+                       Foreground="White"/>
+                    <TextBlock x:Name="txtUserInfo" 
+                       FontSize="14" 
+                       Foreground="White"
+                       Margin="0,5,0,0"/>
+                    <Button x:Name="btnManageTours" 
+Content="Управление турами" 
+Padding="15,8"
+Background="White"
+Foreground="#2196F3"
+FontWeight="Bold"
+Click="BtnManageTours_Click"
+Visibility="Collapsed"
+Margin="0,0,10,0"/>
+                </StackPanel>
+
+                <!-- Кнопки управления -->
+                <StackPanel Orientation="Horizontal">
+
+
+                    <Button x:Name="btnRequests" 
+    Content="Управление заявками" 
+    Padding="15,8"
+    Background="White"
+    Foreground="#2196F3"
+    FontWeight="Bold"
+    Click="BtnRequests_Click"
+    Visibility="Collapsed"
+    Margin="0,0,10,0"/>
+                    <Button x:Name="btnLogout" 
+    Content="Выйти" 
+    Padding="10,5"
+    Background="Transparent"
+    Foreground="White"
+    BorderBrush="White"
+    BorderThickness="1"
+    Click="BtnLogout_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Контейнер для туров -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="itemsTours" Margin="20">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Карточка тура -->
+                        <Border Width="350" 
+                        Height="280" 
+                        Margin="10" 
+                        Background="White"
+                        BorderBrush="#E0E0E0" 
+                        BorderThickness="1"
+                        CornerRadius="8">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10" 
+                                          ShadowDepth="2" 
+                                          Opacity="0.2"/>
+                            </Border.Effect>
+
+                            <Grid Margin="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Фото и название -->
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Фото -->
+                                    <Border Grid.Column="0" 
+                                    Width="80" 
+                                    Height="60" 
+                                    Margin="0,0,10,0"
+                                    CornerRadius="4"
+                                    Background="#E3F2FD">
+                                        <Image Source="{Binding PhotoPath}" 
+                                       Stretch="UniformToFill"/>
+                                    </Border>
+
+                                    <!-- Название и страна -->
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{Binding Name}" 
+                                           FontSize="14" 
+                                           FontWeight="Bold"
+                                           TextWrapping="Wrap"
+                                           MaxHeight="40"
+                                           TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Text="{Binding Country}" 
+                                           FontSize="12" 
+                                           Foreground="#666"
+                                           Margin="0,5,0,0"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Информация о туре -->
+                                <Grid Grid.Row="1" Margin="0,10,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Левая колонка -->
+                                    <StackPanel Grid.Row="0" Grid.Column="0">
+                                        <TextBlock Text="Продолжительность:" 
+                                           FontSize="11" 
+                                           Foreground="#666"/>
+                                        <TextBlock Text="{Binding Duration, StringFormat={}{0} дней}" 
+                                           FontSize="12" 
+                                           FontWeight="SemiBold"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,5,0,0">
+                                        <TextBlock Text="Дата начала:" 
+                                           FontSize="11" 
+                                           Foreground="#666"/>
+                                        <TextBlock Text="{Binding StartDate, StringFormat=dd.MM.yyyy}" 
+                                           FontSize="12" 
+                                           FontWeight="SemiBold">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsStartingSoon}" Value="True">
+                                                            <Setter Property="FontWeight" Value="Bold"/>
+                                                            <Setter Property="Foreground" Value="#FF5722"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,5,0,0">
+                                        <TextBlock Text="Базовая стоимость:" 
+                                           FontSize="11" 
+                                           Foreground="#666"/>
+                                        <TextBlock Text="{Binding Price, StringFormat={}{0:N0} руб.}" 
+                                           FontSize="12" 
+                                           FontWeight="SemiBold"/>
+                                    </StackPanel>
+
+                                    <!-- Правая колонка -->
+                                    <StackPanel Grid.Row="0" Grid.Column="1">
+                                        <TextBlock Text="Кол-во свободных мест:" 
+                                           FontSize="11" 
+                                           Foreground="#666"/>
+                                        <TextBlock Text="{Binding FreeSeats}" 
+                                           FontSize="12" 
+                                           FontWeight="SemiBold"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,5,0,0">
+                                        <TextBlock Text="Всего мест:" 
+                                           FontSize="11" 
+                                           Foreground="#666"/>
+                                        <TextBlock Text="{Binding Capacity}" 
+                                           FontSize="12" 
+                                           FontWeight="SemiBold"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,5,0,0">
+                                        <TextBlock Text="Размер скидки:" 
+                                           FontSize="11" 
+                                           Foreground="#666"/>
+                                        <TextBlock Text="{Binding DiscountPercent, StringFormat={}{0}%}" 
+                                           FontSize="12" 
+                                           FontWeight="SemiBold"/>
+                                    </StackPanel>
+
+                                    <!-- Скидка (если есть) -->
+                                    <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                    Background="#FFD700" 
+                                    CornerRadius="4"
+                                    Padding="5,2"
+                                    Margin="0,10,0,0"
+                                    HorizontalAlignment="Stretch">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSpecialOffer}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <TextBlock Text="Спецпредложение!" 
+                                           HorizontalAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="#333"/>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Нижняя панель -->
+                                <Grid Grid.Row="2" Margin="0,10,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Индикаторы -->
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                        <!-- Индикатор "Скоро" -->
+                                        <Border Background="#FF5722" 
+                                        CornerRadius="10" 
+                                        Padding="8,4">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsStartingSoon}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock Text="СКОРО" 
+                                               FontSize="10" 
+                                               FontWeight="Bold"
+                                               Foreground="White"/>
+                                        </Border>
+
+                                        <!-- Индикатор "Мало мест" -->
+                                        <Border Background="#FF4081" 
+                                        CornerRadius="10" 
+                                        Padding="8,4"
+                                        Margin="5,0,0,0">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsFewSeats}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock Text="МАЛО МЕСТ" 
+                                               FontSize="10" 
+                                               FontWeight="Bold"
+                                               Foreground="White"/>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <!-- Кнопка заявки -->
+                                    <Button Grid.Column="1" 
+                                    Content="Забронировать" 
+                                    Padding="10,5"
+                                    Background="#4CAF50"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    BorderThickness="0"
+                                    Click="BtnBookTour_Click"
+                                    Tag="{Binding Id}">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Style.Triggers>
+                                                    <!-- Для гостей кнопка неактивна -->
+                                                    <DataTrigger Binding="{Binding Source={x:Static Application.Current}, Path=CurrentUser.Role}" Value="Гость">
+                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                        <Setter Property="ToolTip" Value="Для бронирования войдите в систему"/>
+                                                        <Setter Property="Background" Value="#BDBDBD"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Source={x:Static Application.Current}, Path=CurrentUser.Role}" Value="Авторизированный клиент">
+                                                        <Setter Property="IsEnabled" Value="True"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </Grid>
+                            </Grid>
+
+                            <!-- Стили для подсветки -->
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="BorderBrush" Value="#E0E0E0"/>
+
+                                    <!-- Золотистый фон для спецпредложений -->
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSpecialOffer}" Value="True">
+                                            <Setter Property="Background" Value="#FFFDE7"/>
+                                            <Setter Property="BorderBrush" Value="#FFD600"/>
+                                        </DataTrigger>
+
+                                        <!-- Розовый фон для малого количества мест -->
+                                        <DataTrigger Binding="{Binding IsFewSeats}" Value="True">
+                                            <Setter Property="Background" Value="#FFF0F5"/>
+                                            <Setter Property="BorderBrush" Value="#FF4081"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!-- Статусная строка -->
+        <StatusBar Grid.Row="2" Background="#F5F5F5">
+            <StatusBarItem>
+                <TextBlock x:Name="txtStatus" Text="Готово"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Туров:"/>
+                    <TextBlock x:Name="txtToursCount" Text="0" FontWeight="Bold" Margin="5,0,0,0"/>
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>
