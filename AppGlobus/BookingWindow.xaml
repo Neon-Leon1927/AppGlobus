@@ -5,8 +5,80 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppGlobus"
         mc:Ignorable="d"
-        Title="BookingWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Оформление заявки" 
+        Height="400" 
+        Width="400"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" 
+               Text="Оформление заявки" 
+               FontSize="18" 
+               FontWeight="Bold" 
+               Margin="0,0,0,15"/>
+
+        <!-- Форма ввода -->
+        <StackPanel Grid.Row="1">
+            <!-- Информация о туре -->
+            <Border Background="#F5F5F5" 
+                CornerRadius="5" 
+                Padding="10" 
+                Margin="0,0,0,15">
+                <StackPanel>
+                    <TextBlock Text="Выбранный тур:" 
+                           FontWeight="Bold" 
+                           Margin="0,0,0,5"/>
+                    <TextBlock x:Name="txtTourName" 
+                           TextWrapping="Wrap"/>
+                    <TextBlock x:Name="txtTourDates" 
+                           FontSize="11" 
+                           Foreground="#666"
+                           Margin="0,5,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Количество человек -->
+            <TextBlock Text="Количество человек:" Margin="0,0,0,5"/>
+            <TextBox x:Name="txtPeopleCount" 
+                 Height="28" 
+                 Margin="0,0,0,15"
+                 Text="1"/>
+
+
+            <!-- Комментарий -->
+            <TextBlock Text="Комментарий (необязательно):" Margin="0,0,0,5"/>
+            <TextBox x:Name="txtComment" 
+                 Height="60" 
+                 Margin="0,0,0,15"
+                 TextWrapping="Wrap"
+                 AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Auto"/>
+        </StackPanel>
+
+        <!-- Кнопки -->
+        <StackPanel Grid.Row="2" 
+                Orientation="Horizontal" 
+                HorizontalAlignment="Right">
+            <Button x:Name="btnCancel" 
+                Content="Отмена" 
+                Width="100" 
+                Height="32"
+                Click="BtnCancel_Click"/>
+            <Button x:Name="btnBook" 
+                Content="Забронировать" 
+                Width="120" 
+                Height="32"
+                Margin="10,0,0,0"
+                Background="#4CAF50"
+                Foreground="White"
+                FontWeight="Bold"
+                Click="BtnBook_Click"/>
+        </StackPanel>
     </Grid>
 </Window>
