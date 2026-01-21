@@ -5,8 +5,110 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppGlobus"
         mc:Ignorable="d"
-        Title="EditWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Редактирование тура" 
+        Height="550" 
+        Width="450"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" 
+               Text="Редактирование тура" 
+               FontSize="18" 
+               FontWeight="Bold" 
+               Margin="0,0,0,15"/>
+
+        <!-- Форма ввода -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <Border x:Name="borderId" 
+        Visibility="Collapsed" 
+        Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="ID тура:" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtId" 
+                 Height="28" 
+                 IsReadOnly="True"
+                 Background="#F5F5F5"/>
+                    </StackPanel>
+                </Border>
+                <!-- Название -->
+                <TextBlock Text="Название тура:" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtName" 
+         Height="28" 
+         Margin="0,0,0,10"/>
+
+                <!-- Страна -->
+                <TextBlock Text="Страна:" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtCountry" 
+                     Height="28" 
+                     Margin="0,0,0,10"/>
+
+                <!-- Продолжительность -->
+                <TextBlock Text="Продолжительность (дней):" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtDuration" 
+                     Height="28" 
+                     Margin="0,0,0,10"/>
+
+                <!-- Дата начала -->
+                <TextBlock Text="Дата начала:" Margin="0,0,0,5"/>
+                <DatePicker x:Name="dpStartDate" 
+                        Height="28" 
+                        Margin="0,0,0,10"/>
+
+                <!-- Стоимость -->
+                <TextBlock Text="Стоимость (руб.):" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtPrice" 
+                     Height="28" 
+                     Margin="0,0,0,10"/>
+
+                <!-- Тип автобуса -->
+                <TextBlock Text="Тип автобуса:" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtBusType" 
+                     Height="28" 
+                     Margin="0,0,0,10"/>
+
+                <!-- Вместимость -->
+                <TextBlock Text="Вместимость:" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtCapacity" 
+                     Height="28" 
+                     Margin="0,0,0,10"/>
+
+                <!-- Свободных мест -->
+                <TextBlock Text="Свободных мест:" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtFreeSeats" 
+                     Height="28" 
+                     Margin="0,0,0,10"/>
+
+                <!-- Фото -->
+                <TextBlock Text="Имя файла фото (необязательно):" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtPhoto" 
+                     Height="28" 
+                     Margin="0,0,0,10"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Кнопки -->
+        <StackPanel Grid.Row="2" 
+                Orientation="Horizontal" 
+                HorizontalAlignment="Right"
+                Margin="0,15,0,0">
+            <Button x:Name="btnSave" 
+                Content="Сохранить" 
+                Width="100" 
+                Height="32"
+                Click="BtnSave_Click"/>
+            <Button x:Name="btnCancel" 
+                Content="Отмена" 
+                Width="100" 
+                Height="32"
+                Margin="10,0,0,0"
+                Click="BtnCancel_Click"/>
+        </StackPanel>
     </Grid>
 </Window>
