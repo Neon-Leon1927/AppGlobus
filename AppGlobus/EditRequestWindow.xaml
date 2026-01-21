@@ -5,8 +5,105 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppGlobus"
         mc:Ignorable="d"
-        Title="EditRequestWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Редактирование заявки" 
+        Height="550" 
+        Width="450"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" 
+               Text="Редактирование заявки" 
+               FontSize="18" 
+               FontWeight="Bold" 
+               Margin="0,0,0,15"/>
+
+        <!-- Форма ввода -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- ID заявки (только для просмотра) -->
+                <Border x:Name="borderId" 
+                    Visibility="Collapsed" 
+                    Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="Код заявки:" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtId" 
+                             Height="28" 
+                             IsReadOnly="True"
+                             Background="#F5F5F5"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Код тура -->
+                <TextBlock Text="Код тура:" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtTourId" 
+                     Height="28" 
+                     Margin="0,0,0,10"/>
+
+                <!-- Код клиента -->
+                <TextBlock Text="Код клиента:" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtClientId" 
+                     Height="28" 
+                     Margin="0,0,0,10"/>
+
+                <!-- Дата заявки -->
+                <TextBlock Text="Дата заявки:" Margin="0,0,0,5"/>
+                <DatePicker x:Name="dpRequestDate" 
+                        Height="28" 
+                        Margin="0,0,0,10"
+                        IsEnabled="False"/>
+
+                <!-- Статус -->
+                <TextBlock Text="Статус заявки:" Margin="0,0,0,5"/>
+                <ComboBox x:Name="cbStatus" 
+                      Height="28" 
+                      Margin="0,0,0,10">
+                    <ComboBoxItem Content="Ожидает"/>
+                    <ComboBoxItem Content="Подтверждена"/>
+                    <ComboBoxItem Content="Выполнена"/>
+                    <ComboBoxItem Content="Отменена"/>
+                </ComboBox>
+
+                <!-- Количество человек -->
+                <TextBlock Text="Количество человек:" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtPeopleCount" 
+                     Height="28" 
+                     Margin="0,0,0,10"/>
+
+
+
+                <!-- Комментарий -->
+                <TextBlock Text="Комментарий:" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtComment" 
+                     Height="60" 
+                     Margin="0,0,0,10"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     VerticalScrollBarVisibility="Auto"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Кнопки -->
+        <StackPanel Grid.Row="2" 
+                Orientation="Horizontal" 
+                HorizontalAlignment="Right"
+                Margin="0,15,0,0">
+            <Button x:Name="btnSave" 
+                Content="Сохранить" 
+                Width="100" 
+                Height="32"
+                Click="BtnSave_Click"/>
+            <Button x:Name="btnCancel" 
+                Content="Отмена" 
+                Width="100" 
+                Height="32"
+                Margin="10,0,0,0"
+                Click="BtnCancel_Click"/>
+        </StackPanel>
     </Grid>
 </Window>
