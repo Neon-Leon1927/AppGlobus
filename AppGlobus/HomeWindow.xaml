@@ -6,156 +6,16 @@
         xmlns:local="clr-namespace:AppGlobus"
         mc:Ignorable="d"
         Title="HomeWindow" Height="450" Width="800">
-    <DockPanel>
-        <!-- Панель управления -->
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="Файл">
-                <MenuItem Header="Войти как менеджер" Click="LoginAsManager_Click"/>
-                <MenuItem Header="Выйти из менеджера" Click="Logout_Click"/>
-                <Separator/>
-                <MenuItem Header="Выход" Click="Exit_Click"/>
-            </MenuItem>
-            <MenuItem Header="Туры" x:Name="ManagerMenu" IsEnabled="False">
-                <MenuItem Header="Добавить тур" Click="AddTour_Click"/>
-                <MenuItem Header="Редактировать тур" Click="EditTour_Click"/>
-                <MenuItem Header="Удалить тур" Click="DeleteTour_Click"/>
-            </MenuItem>
-        </Menu>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="14*"/>
+            <ColumnDefinition Width="51*"/>
+            <ColumnDefinition Width="15*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23*"/>
+            <RowDefinition Height="194*"/>
+        </Grid.RowDefinitions>
 
-        <!-- Статус бар -->
-        <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem>
-                <TextBlock x:Name="StatusText" Text="Гостевой доступ"/>
-            </StatusBarItem>
-            <StatusBarItem HorizontalAlignment="Right">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Туров: " FontWeight="Bold"/>
-                    <TextBlock x:Name="TourCountText" Text="0"/>
-                </StackPanel>
-            </StatusBarItem>
-        </StatusBar>
-
-        <!-- Основное содержимое -->
-        <ScrollViewer>
-            <ItemsControl x:Name="ToursListControl" Margin="10">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="#FFCCCCCC" BorderThickness="1" Margin="0,0,0,10" 
-                                Padding="10" CornerRadius="5">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Style.Triggers>
-                                        <!-- Подсветка для спецпредложений -->
-                                        <DataTrigger Binding="{Binding IsSpecialOffer}" Value="True">
-                                            <Setter Property="Background" Value="#FFD700"/>
-                                        </DataTrigger>
-                                        <!-- Подсветка для малого количества мест -->
-                                        <DataTrigger Binding="{Binding IsFewSeats}" Value="True">
-                                            <Setter Property="Background" Value="#FFB6C1"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
-
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <!-- Фото тура -->
-                                <Border BorderBrush="#FF999999" BorderThickness="1" 
-                                        Background="#FFF0F0F0" Width="100" Height="100">
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Setter Property="Border.Background">
-                                                <Setter.Value>
-                                                    <ImageBrush ImageSource="/AppGlobus;component/Resources/tour_placeholder.png" 
-                                                               Stretch="Uniform"/>
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding PhotoPath}" Value="">
-                                                    <Setter Property="Border.Background">
-                                                        <Setter.Value>
-                                                            <ImageBrush ImageSource="/AppGlobus;component/Resources/tour_placeholder.png" 
-                                                                       Stretch="Uniform"/>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding PhotoPath}" Value="{x:Null}">
-                                                    <Setter Property="Border.Background">
-                                                        <Setter.Value>
-                                                            <!--<ImageBrush ImageSource="/AppGlobus;component/Resources/tour_placeholder.png" 
-                                                                       Stretch="Uniform"/>-->
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                </Border>
-
-                                <!-- Информация о туре -->
-                                <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="14"/>
-                                        <TextBlock Text=" - " />
-                                        <TextBlock Text="{Binding Country}" FontStyle="Italic"/>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                        <TextBlock Text="Продолжительность: "/>
-                                        <TextBlock Text="{Binding Duration}" FontWeight="Bold"/>
-                                        <TextBlock Text=" дней"/>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Дата начала: "/>
-                                        <TextBlock x:Name="StartDateText" Text="{Binding StartDate, StringFormat=dd.MM.yyyy}">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Style.Triggers>
-                                                        <!-- Жирный шрифт для туров, которые скоро начнутся -->
-                                                        <DataTrigger Binding="{Binding IsStartingSoon}" Value="True">
-                                                            <Setter Property="FontWeight" Value="Bold"/>
-                                                            <Setter Property="Foreground" Value="#FFFF0000"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Базовая стоимость: "/>
-                                        <TextBlock Text="{Binding BasePrice, StringFormat={}{0:C}}"/>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Скидка: "/>
-                                        <TextBlock Text="{Binding Discount}" FontWeight="Bold" Foreground="#FF008000"/>
-                                        <TextBlock Text="%"/>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Итоговая стоимость: "/>
-                                        <TextBlock Text="{Binding FinalPrice, StringFormat={}{0:C}}" 
-                                                   FontWeight="Bold" FontSize="12"/>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Свободных мест: "/>
-                                        <TextBlock Text="{Binding BusFreeSeats}" FontWeight="Bold"/>
-                                        <TextBlock Text="/"/>
-                                        <TextBlock Text="{Binding BusCapacity}"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-    </DockPanel>
+    </Grid>
 </Window>
