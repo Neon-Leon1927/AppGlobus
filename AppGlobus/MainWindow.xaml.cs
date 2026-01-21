@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Microsoft.Data.SqlClient;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,70 +25,92 @@ namespace AppGlobus
         {
             InitializeComponent();
         }
-        private void ButtonLogin_Click(object sender, RoutedEventArgs e)
+        private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            TryLogin();
-        }
-        private void TextBoxPassword_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                TryLogin();
-            }
-        }
-        // Метод проверки логина и пароля
-        private void TryLogin()
-        {
-            string login = TextBoxLogin.Text;
-            string password = TextBoxPassword.Text;
+            string login = txtLogin.Text.Trim();
+            string password = txtPassword.Password;
 
-            // Проверка на пустые поля
-            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
-                ShowErrorMessage("Введите логин и пароль");
+                MessageBox.Show("Введите логин и пароль!", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // Проверка логина и пароля
-            if (login == CorrectLogin && password == CorrectPassword)
+            try
             {
-                // Успешный вход
-                MessageBox.Show("Вход выполнен успешно!", "Успех",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                // Используем ConnectionString из DatabaseHelper
+                using (SqlConnection conn = new SqlConnection(DatabaseHelper.ConnectionString))
+                {
+                    conn.Open();
 
-                // Здесь можно открыть главное окно приложения
-                // MainMenuWindow mainMenu = new MainMenuWindow();
-                // mainMenu.Show();
-                // this.Close();
+                    string query = @"
+                        SELECT Роль, ФИО 
+                        FROM Users 
+                        WHERE Логин = @login AND Пароль = @password";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@login", login);
+                        cmd.Parameters.AddWithValue("@password", password);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                // Исправляем: проверяем на null
+                                string? role = reader["Роль"]?.ToString();
+                                string? fullName = reader["ФИО"]?.ToString();
+
+                                if (role != null && fullName != null)
+                                {
+                                    App.CurrentUser = new UserInfo
+                                    {
+                                        Role = role,
+                                        FullName = fullName,
+                                        Login = login
+                                    };
+
+                                    // Открываем главное окно
+                                    MainWindow mainWindow = new MainWindow();
+                                    mainWindow.Show();
+
+                                    this.Close();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Ошибка чтения данных пользователя!", "Ошибка",
+                                        MessageBoxButton.OK, MessageBoxImage.Error);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Неверный логин или пароль!", "Ошибка входа",
+                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                        }
+                    }
+                }
             }
-            else
+            catch (SqlException ex)
             {
-                ShowErrorMessage("Неверный логин или пароль");
-
-                // Очищаем поле пароля при ошибке
-                TextBoxPassword.Clear();
-                TextBoxPassword.Focus();
+                MessageBox.Show($"Ошибка подключения к базе данных:\n{ex.Message}",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        // Метод для отображения ошибки
-        private void ShowErrorMessage(string message)
+        private void BtnGuest_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(message, "Ошибка входа",
-                MessageBoxButton.OK, MessageBoxImage.Error);
+            App.CurrentUser = new UserInfo
+            {
+                Role = "Гость",
+                FullName = "Гость",
+                Login = ""
+            };
+
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+
+            this.Close();
         }
-        // Эффект при наведении курсора на кнопку
-        private void ButtonLogin_MouseEnter(object sender, MouseEventArgs e)
-        {
-            // Изменяем цвет кнопки при наведении
-            ButtonLogin.Background = new RadialGradientBrush(
-                Color.FromRgb(100, 230, 255), // Более светлый цвет
-                Color.FromRgb(100, 180, 255));
-
-            // Можно также изменить курсор
-            ButtonLogin.Cursor = Cursors.Hand;
-
-            // Небольшое увеличение кнопки (опционально)
-            ButtonLogin.FontSize = 13;
-        }        
     }
 }

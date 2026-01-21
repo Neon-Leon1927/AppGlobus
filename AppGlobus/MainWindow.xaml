@@ -5,32 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppGlobus"
         mc:Ignorable="d"
-        Title="Login" Height="300" Width="300">
-    <Grid>
+        Title="Вход в систему" 
+        Height="300" 
+        Width="400"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="22*"/>
-            <RowDefinition Height="21*"/>
-            <RowDefinition Height="22*"/>
-            <RowDefinition Height="16*"/>
-            <RowDefinition Height="23*"/>
-            <RowDefinition Height="28*"/>
-            <RowDefinition Height="27*"/>
-            <RowDefinition Height="125*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Content="Вход в систему" HorizontalAlignment="Center" Height="30" VerticalAlignment="Center" Width="129" FontFamily="Comic Sans MS" FontSize="16"/>
-        <Label Content="Логин:" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="129" FontFamily="Comic Sans MS" Grid.Row="1"/>
-        <Label Content="Пароль:" HorizontalAlignment="Left" Height="30" VerticalAlignment="Center" Width="129" FontFamily="Comic Sans MS" Grid.Row="3"/>
-        <TextBox x:Name="TextBoxLogin" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" TextWrapping="Wrap"  VerticalAlignment="Center" Width="240" Height="18"/>
-        <TextBox x:Name="TextBoxPassword" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="4" TextWrapping="Wrap"  VerticalAlignment="Center" Width="240" Height="18"/>
-        <Button x:Name="ButtonLogin" Content="Войти" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" Width="81" FontFamily="Comic Sans MS"  Click="ButtonLogin_Click" MouseEnter="ButtonLogin_MouseEnter" Height="21">
-            <Button.Background>
-                <RadialGradientBrush>
-                    <GradientStop Color="#FF45F2FF" Offset="0"/>
-                    <GradientStop Color="#FF4FB2FF" Offset="0.987"/>
-                    <GradientStop Color="#FF80F5FF" Offset="0.017"/>
-                </RadialGradientBrush>
-            </Button.Background>
-        </Button>
 
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" 
+               Text="Турагентство 'Глобус'" 
+               FontSize="20" 
+               FontWeight="Bold" 
+               HorizontalAlignment="Center" 
+               Margin="0,0,0,20"/>
+
+        <!-- Поле логина -->
+        <TextBlock Grid.Row="1" 
+               Text="Логин:" 
+               Margin="0,0,0,5"/>
+        <TextBox Grid.Row="2" 
+             x:Name="txtLogin" 
+             Height="25" 
+             Margin="0,0,0,15"/>
+
+        <!-- Поле пароля -->
+        <TextBlock Grid.Row="3" 
+               Text="Пароль:" 
+               Margin="0,0,0,5"/>
+        <PasswordBox Grid.Row="4" 
+                 x:Name="txtPassword" 
+                 Height="25" 
+                 Margin="0,0,0,20"/>
+
+        <!-- Кнопки -->
+        <StackPanel Grid.Row="5" 
+                Orientation="Horizontal" 
+                HorizontalAlignment="Center">
+            <Button x:Name="btnLogin" 
+                Content="Войти" 
+                Width="100" 
+                Height="30" 
+                Margin="0,0,10,0"
+                Click="BtnLogin_Click"/>
+            <Button x:Name="btnGuest" 
+                Content="Войти как гость" 
+                Width="120" 
+                Height="30"
+                Click="BtnGuest_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

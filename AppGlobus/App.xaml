@@ -4,6 +4,10 @@
              xmlns:local="clr-namespace:AppGlobus"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- Базовые стили -->
+        <Style TargetType="Window">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
     </Application.Resources>
 </Application>
