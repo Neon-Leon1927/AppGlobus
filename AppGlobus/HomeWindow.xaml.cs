@@ -1,17 +1,9 @@
 ﻿using AppGlobus.Models;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace AppGlobus
 {
@@ -110,7 +102,8 @@ namespace AppGlobus
                 MessageBox.Show($"Ошибка загрузки туров: {ex.Message}", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            private void BtnRequests_Click(object sender, RoutedEventArgs e)
+        }
+        private void BtnRequests_Click(object sender, RoutedEventArgs e)
         {
             // Вместо ManagerWindow открываем RequestsWindow
             var requestsWindow = new RequestsWindow();
@@ -121,8 +114,8 @@ namespace AppGlobus
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
             App.CurrentUser = null;
-            var loginWindow = new LoginWindow();
-            loginWindow.Show();
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
             this.Close();
         }
 

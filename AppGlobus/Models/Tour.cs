@@ -16,17 +16,14 @@ namespace AppGlobus.Models
         public string BusType { get; set; } = string.Empty;
         public int Capacity { get; set; }
         public int FreeSeats { get; set; }
-        public string? PhotoFileName { get; set; } // Nullable
-
-        // Вычисляемые свойства
+        public string? PhotoFileName { get; set; } 
+                
         public int OccupancyPercent => Capacity > 0 ? (Capacity - FreeSeats) * 100 / Capacity : 0;
 
-        // Процент скидки (примерная логика)
         public int DiscountPercent
         {
             get
             {
-                // Пример: скидка рассчитывается от базовой цены 100000
                 decimal basePrice = 100000;
                 if (basePrice <= 0 || Price >= basePrice) return 0;
 
@@ -41,7 +38,6 @@ namespace AppGlobus.Models
 
         public bool IsStartingSoon => (StartDate - DateTime.Now).TotalDays < 7;
 
-        // Путь к фото
         public string PhotoPath
         {
             get
@@ -50,7 +46,7 @@ namespace AppGlobus.Models
                 {
                     return $"/Images/{PhotoFileName}";
                 }
-                return "/Images/default_tour.png"; // Заглушка
+                return "/Images/default_tour.png"; 
             }
         }
 
