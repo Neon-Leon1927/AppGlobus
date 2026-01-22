@@ -36,7 +36,6 @@ namespace AppGlobus
                 dpRequestDate.IsEnabled = true;
                 dpRequestDate.SelectedDate = DateTime.Now;
 
-                // Для менеджера скрываем поля, которые он не может менять
                 if (_isManager)
                 {
                     txtTourId.IsEnabled = false;
@@ -51,7 +50,6 @@ namespace AppGlobus
                 Title = "Редактирование заявки";
                 borderId.Visibility = Visibility.Visible;
 
-                // Для менеджера ограничиваем редактирование
                 if (_isManager)
                 {
                     txtTourId.IsEnabled = false;
@@ -76,10 +74,8 @@ namespace AppGlobus
             dpRequestDate.SelectedDate = _request.RequestDate > DateTime.MinValue ?
                 _request.RequestDate : DateTime.Now;
             txtPeopleCount.Text = _request.PeopleCount.ToString();
-            // УДАЛИЛИ txtTotalPrice - больше не загружаем стоимость
             txtComment.Text = _request.Comment ?? "";
 
-            // Устанавливаем статус в ComboBox
             if (!string.IsNullOrEmpty(_request.Status))
             {
                 foreach (var item in cbStatus.Items)
@@ -93,7 +89,6 @@ namespace AppGlobus
                 }
             }
 
-            // Если не выбран статус, выбираем первый
             if (cbStatus.SelectedItem == null && cbStatus.Items.Count > 0)
             {
                 cbStatus.SelectedIndex = 0;
@@ -103,7 +98,6 @@ namespace AppGlobus
 
         private bool ValidateInput()
         {
-            // Проверка кода тура
             if (!int.TryParse(txtTourId.Text, out int tourId) || tourId <= 0)
             {
                 MessageBox.Show("Введите корректный код тура", "Ошибка",
@@ -112,7 +106,6 @@ namespace AppGlobus
                 return false;
             }
 
-            // Проверка кода клиента
             if (!int.TryParse(txtClientId.Text, out int clientId) || clientId <= 0)
             {
                 MessageBox.Show("Введите корректный код клиента", "Ошибка",
@@ -121,7 +114,6 @@ namespace AppGlobus
                 return false;
             }
 
-            // Проверка даты
             if (dpRequestDate.SelectedDate == null)
             {
                 MessageBox.Show("Выберите дату заявки", "Ошибка",
@@ -130,7 +122,6 @@ namespace AppGlobus
                 return false;
             }
 
-            // Проверка количества человек
             if (!int.TryParse(txtPeopleCount.Text, out int peopleCount) || peopleCount <= 0)
             {
                 MessageBox.Show("Введите корректное количество человек", "Ошибка",
@@ -149,16 +140,13 @@ namespace AppGlobus
 
             try
             {
-                // Обновляем объект заявки
                 _request.TourId = int.Parse(txtTourId.Text);
                 _request.ClientId = int.Parse(txtClientId.Text);
                 _request.RequestDate = dpRequestDate.SelectedDate.Value;
                 _request.PeopleCount = int.Parse(txtPeopleCount.Text);
-                // УДАЛИЛИ TotalPrice - больше не сохраняем стоимость
                 _request.Comment = string.IsNullOrWhiteSpace(txtComment.Text) ?
                     null : txtComment.Text.Trim();
 
-                // Получаем выбранный статус
                 if (cbStatus.SelectedItem is ComboBoxItem selectedItem)
                 {
                     _request.Status = selectedItem.Content.ToString();

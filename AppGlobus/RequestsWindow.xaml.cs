@@ -304,8 +304,8 @@ namespace AppGlobus
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = new MainWindow();
-            mainWindow.Show();
+            var homeWindow = new HomeWindow();
+            homeWindow.Show();
             this.Close();
         }
     }

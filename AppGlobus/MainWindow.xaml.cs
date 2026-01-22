@@ -17,10 +17,6 @@ namespace AppGlobus
     /// </summary>
     public partial class MainWindow : Window
     {
-        // Правильные логин и пароль (для примера)
-        private const string CorrectLogin = "admin";
-        private const string CorrectPassword = "12345";
-
         public MainWindow()
         {
             InitializeComponent();
@@ -39,7 +35,6 @@ namespace AppGlobus
 
             try
             {
-                // Используем ConnectionString из DatabaseHelper
                 using (SqlConnection conn = new SqlConnection(DatabaseHelper.ConnectionString))
                 {
                     conn.Open();
@@ -58,7 +53,6 @@ namespace AppGlobus
                         {
                             if (reader.Read())
                             {
-                                // Исправляем: проверяем на null
                                 string? role = reader["Роль"]?.ToString();
                                 string? fullName = reader["ФИО"]?.ToString();
 
@@ -71,9 +65,8 @@ namespace AppGlobus
                                         Login = login
                                     };
 
-                                    // Открываем главное окно
-                                    MainWindow mainWindow = new MainWindow();
-                                    mainWindow.Show();
+                                    HomeWindow homeWindow = new HomeWindow();
+                                    homeWindow.Show();
 
                                     this.Close();
                                 }
@@ -107,8 +100,8 @@ namespace AppGlobus
                 Login = ""
             };
 
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
+            HomeWindow homeWindow = new HomeWindow();
+            homeWindow.Show();
 
             this.Close();
         }
